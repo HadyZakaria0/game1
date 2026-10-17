@@ -1,0 +1,339 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#10080d">
+  <meta name="description" content="A little journey made with love.">
+  <title>Love Quest ❤️</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+
+<body>
+  <div class="ambient ambient-one"></div>
+  <div class="ambient ambient-two"></div>
+  <canvas id="stars" aria-hidden="true"></canvas>
+
+  <main class="app" id="app">
+
+    <!-- HEADER -->
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="Love Quest">
+        <span class="brand-icon">♥</span>
+        <span>LOVE<span class="brand-accent">QUEST</span></span>
+      </a>
+
+      <div class="topbar-right">
+        <span class="status-dot"></span>
+        <span class="topbar-label">A LITTLE JOURNEY OF LOVE</span>
+      </div>
+    </header>
+
+    <!-- PROGRESS -->
+    <nav class="progress" id="progress" aria-label="تقدم اللعبة" hidden>
+      <div class="progress-info">
+        <span id="progressLabel">المرحلة الأولى</span>
+        <span id="progressCount">01 / 03</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+    </nav>
+
+    <!-- INTRO -->
+    <section class="screen intro-screen active" id="intro">
+      <div class="intro-content">
+        <div class="eyebrow">
+          <span>✦</span>
+          <span>A SPECIAL LITTLE ADVENTURE</span>
+          <span>✦</span>
+        </div>
+
+        <div class="hero-heart" aria-hidden="true">
+          <div class="hero-heart-ring ring-one"></div>
+          <div class="hero-heart-ring ring-two"></div>
+          <div class="hero-heart-symbol">♥</div>
+          <span class="heart-spark spark-one">✦</span>
+          <span class="heart-spark spark-two">✧</span>
+          <span class="heart-spark spark-three">✦</span>
+        </div>
+
+        <h1 class="hero-title">
+          Some things<br>
+          <span>are worth the quest.</span>
+        </h1>
+
+        <p class="hero-description">
+          رحلة صغيرة، ثلاث ألعاب، وسرّ مستنيكي في النهاية.
+          <br>
+          <span>جاهزة تكتشفي المفاجأة؟ ❤️</span>
+        </p>
+
+        <button class="primary-button" id="startButton" type="button">
+          <span>ابدئي المغامرة</span>
+          <span class="button-arrow">←</span>
+        </button>
+
+        <p class="intro-footnote">MADE WITH LOVE · JUST FOR YOU</p>
+      </div>
+    </section>
+
+    <!-- GAME 1: HEARTS -->
+    <section class="screen game-screen" id="heartGame" hidden>
+      <div class="section-heading">
+        <span class="stage-kicker">CHAPTER 01 · THE COLLECTION</span>
+        <h2>اجمعي <span>قلوبنا</span> ❤️</h2>
+        <p>اضغطي على القلوب اللي بتظهر قدامك واجمعي 5 قلوب.</p>
+      </div>
+
+      <div class="game-stats">
+        <div class="stat-card">
+          <span class="stat-label">القلوب المجمعة</span>
+          <strong>
+            <span id="heartScore">0</span>
+            <span class="stat-divider">/</span>5
+          </strong>
+        </div>
+
+        <div class="stat-card">
+          <span class="stat-label">الوقت المتبقي</span>
+          <strong>
+            <span id="heartTimer">60</span><small>ث</small>
+          </strong>
+        </div>
+      </div>
+
+      <div class="game-board heart-board" id="heartBoard">
+        <div class="board-message" id="heartBoardMessage">
+          <span class="board-message-icon">♥</span>
+          <span>القلوب مستنياكي...</span>
+        </div>
+      </div>
+
+      <div class="game-footer">
+        <p id="heartGameHint">كل قلب بتجمعيه بيقرّبك من المفاجأة ✨</p>
+        <button class="secondary-button" id="heartRetryButton" type="button">
+          إعادة المحاولة ↻
+        </button>
+      </div>
+    </section>
+
+    <!-- GAME 2: MEMORY -->
+    <section class="screen game-screen" id="memoryGame" hidden>
+      <div class="section-heading">
+        <span class="stage-kicker">CHAPTER 02 · THE MEMORY</span>
+        <h2>فاكرة <span>مكانهم؟</span> 💗</h2>
+        <p>اقلبي الكروت واكتشفي كل زوج متشابه.</p>
+      </div>
+
+      <div class="game-stats">
+        <div class="stat-card">
+          <span class="stat-label">الأزواج المكتشفة</span>
+          <strong>
+            <span id="memoryMatches">0</span>
+            <span class="stat-divider">/</span>6
+          </strong>
+        </div>
+
+        <div class="stat-card">
+          <span class="stat-label">عدد المحاولات</span>
+          <strong id="memoryMoves">0</strong>
+        </div>
+      </div>
+
+      <div class="memory-board" id="memoryBoard"></div>
+
+      <div class="game-footer">
+        <p id="memoryHint">ركّزي كويس... كل كارت وليه توأم ❤️</p>
+        <button class="secondary-button" id="memoryRetryButton" type="button">
+          إعادة المحاولة ↻
+        </button>
+      </div>
+    </section>
+
+    <!-- GAME 3: MAZE -->
+    <section class="screen game-screen" id="mazeGame" hidden>
+      <div class="section-heading">
+        <span class="stage-kicker">CHAPTER 03 · FIND YOUR WAY</span>
+        <h2>طريقك <span>للقلب</span> 💘</h2>
+        <p>وصّلي القلب الأحمر للهدف باستخدام الأسهم أو الأزرار.</p>
+      </div>
+
+      <div class="maze-status">
+        <span>📍 ابدئي من القلب الأحمر</span>
+        <span>الهدف: <strong>♥</strong></span>
+      </div>
+
+      <div class="maze-wrap">
+        <div class="maze-board" id="mazeBoard"
+             role="grid" aria-label="متاهة القلب"></div>
+      </div>
+
+      <div class="maze-controls" aria-label="التحكم في المتاهة">
+        <button type="button" class="direction-button up"
+                data-direction="up" aria-label="أعلى">↑</button>
+
+        <div class="direction-row">
+          <button type="button" class="direction-button"
+                  data-direction="left" aria-label="يسار">←</button>
+          <button type="button" class="direction-button"
+                  data-direction="down" aria-label="أسفل">↓</button>
+          <button type="button" class="direction-button"
+                  data-direction="right" aria-label="يمين">→</button>
+        </div>
+      </div>
+
+      <p class="maze-hint" id="mazeHint">
+        كل خطوة بتقرّبك من النهاية ✨
+      </p>
+
+      <button class="secondary-button maze-retry"
+              id="mazeRetryButton" type="button">
+        ابدئي المتاهة من جديد ↻
+      </button>
+    </section>
+
+    <!-- PASSWORD -->
+    <section class="screen secret-screen" id="passwordStage" hidden>
+      <div class="secret-content">
+        <div class="secret-lock">🔐</div>
+
+        <span class="stage-kicker">ONE LAST LITTLE SECRET</span>
+        <h2>وصلتي لآخر <span>سرّ</span>...</h2>
+
+        <p class="secret-description">
+          خلصتي كل التحديات! بس فيه باب أخير مستني كلمة السر الصح.
+        </p>
+
+        <form id="passwordForm" class="password-form">
+          <label for="passwordInput">كلمة السر</label>
+
+          <input
+            id="passwordInput"
+            type="text"
+            placeholder="اكتبي كلمة السر هنا..."
+            autocomplete="off"
+            required
+          >
+
+          <button class="primary-button" type="submit">
+            <span>افتحي المفاجأة</span>
+            <span class="button-arrow">←</span>
+          </button>
+        </form>
+
+        <button class="hint-button" id="hintButton" type="button">
+          <span>✦</span> محتاجة تلميح؟
+        </button>
+
+        <p class="password-hint" id="passwordHint" hidden></p>
+        <p class="password-feedback" id="passwordFeedback"
+           aria-live="polite"></p>
+      </div>
+    </section>
+
+    <!-- LEGACY MESSAGE SCREEN
+         موجودة للتوافق مع الملفات القديمة، لكن المفروض
+         إن script.js يفتح الصورة مباشرة بعد كلمة السر. -->
+    <section class="screen message-screen" id="messageStage" hidden>
+      <div class="message-content">
+        <div class="message-icon">💌</div>
+        <span class="stage-kicker">A MESSAGE FROM THE HEART</span>
+        <h2>رسالة من <span>القلب</span> ❤️</h2>
+        <p>المفاجأة مستنياكي في الصورة التالية.</p>
+      </div>
+    </section>
+
+    <!-- SCRATCH PHOTO -->
+    <section class="screen reveal-screen" id="scratchStage" hidden>
+      <div class="reveal-content">
+        <span class="stage-kicker">THE MOMENT YOU'VE BEEN WAITING FOR</span>
+
+        <h2>امسحي الغطاء واكتشفي <span>المفاجأة</span> ❤️</h2>
+
+        <p>استخدمي صباعك أو الماوس وامسحي الطبقة اللي فوق الصورة.</p>
+
+        <div class="scratch-card" id="scratchCard">
+          <img
+            id="secretPhoto"
+            src="images/love-photo.jpg"
+            alt="الصورة السرية"
+            draggable="false"
+          >
+
+          <div class="photo-fallback" id="photoFallback" hidden>
+            <span>♥</span>
+            <strong>صورتكم هنا</strong>
+            <p>تأكدي إن الصورة موجودة داخل مجلد images باسم love-photo.jpg</p>
+          </div>
+
+          <canvas id="scratchCanvas"
+                  aria-label="امسحي هنا لكشف الصورة"></canvas>
+
+          <div class="scratch-overlay-label" id="scratchOverlayLabel">
+            <span>♥</span>
+            <strong>فيه مفاجأة ليكي</strong>
+            <small>امسحي هنا ✨</small>
+          </div>
+        </div>
+
+        <p class="scratch-progress" id="scratchHint">
+          لسه المفاجأة مستخبية... كمّلي مسح ❤️
+        </p>
+
+        <button class="secondary-button" id="revealButton" type="button">
+          اكشفي الصورة كلها ✨
+        </button>
+      </div>
+    </section>
+
+    <!-- ENDING -->
+    <section class="screen ending-screen" id="ending" hidden>
+      <div class="ending-content">
+        <div class="ending-sparkle">✦</div>
+
+        <span class="stage-kicker">A LITTLE SOMETHING JUST FOR YOU</span>
+
+        <div class="ending-photo-frame">
+          <img
+            id="finalPhoto"
+            src="images/love-photo.jpg"
+            alt="صورتكم"
+          >
+        </div>
+
+        <p class="ending-intro">إلى</p>
+        <h2 id="herName">أجمل إنسانة ❤️</h2>
+
+        <div class="ending-divider"><span>♥</span></div>
+
+        <p class="final-message" id="finalMessage"></p>
+
+        <p class="ending-signature">مخصوص لحبيبتي ♥</p>
+
+        <button class="primary-button" id="replayButton" type="button">
+          <span>نعيش الحكاية من جديد</span>
+          <span class="button-arrow">↻</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="app-footer">
+      <span>LOVE QUEST</span>
+      <span class="footer-heart">♥</span>
+      <span>EVERY HEART HAS A STORY</span>
+    </footer>
+
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
